@@ -61,3 +61,7 @@ npm run cy:open
 ```
 >Abre o Cypress Test Runner para rodar os testes interativamente.
 
+---
+
+## Observações
+- Não subir o arquivo `cypress.env.json` com credenciais reais para o repositório.

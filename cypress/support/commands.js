@@ -45,7 +45,6 @@ Cypress.Commands.add('clicarBotaoLogin', () => {
     cy.get(LoginPage.loginButton).click()
 })
 
-//Comandas da Tela de 'Home'
 Cypress.Commands.add('validarRedirecionamentoHome', () => {
     cy.url().should('include', '/')
     cy.location('pathname').should('not.eq', `${Cypress.env('login_url')}`)
@@ -55,6 +54,17 @@ Cypress.Commands.add('validarRedirecionamentoHome', () => {
 Cypress.Commands.add('acessarPaginaProdutos', () => {
     cy.visit(`${Cypress.env('products_url')}`)
     cy.get(ProductsPage.searchProductsField).should('be.visible')
+})
+
+Cypress.Commands.add('buscarProduto', (produto = 'Blue Top') => {
+    cy.visit(`${Cypress.env('products_url')}`)
+    cy.get(`${ProductsPage.searchProductsField}, ${ProductsPage.searchButton}`)
+      .should('be.visible')
+    cy.get(ProductsPage.searchProductsField)
+      .clear()
+      .type(produto)
+      .should('have.value', produto)
+    cy.get(ProductsPage.searchButton).click()
 })
 
 Cypress.Commands.add('realizarBuscaProduto', (produto = 'Blue Top') => {
@@ -74,12 +84,6 @@ Cypress.Commands.add('verificarProdutoNosResultados', (produto = 'Blue Top') => 
     cy.contains('p', produto).should('be.visible')
 })
 
-Cypress.Commands.add('incluirProdutoNoCarrinho', () => {
-    cy.get(ProductsPage.addToCartButton)
-      .eq(0)
-      .click()
-})
-
 Cypress.Commands.add('adicionarMultiplosProdutosAoCarrinho', (produtos = [1, 2, 3, 4, 5]) => {
     cy.visit(`${Cypress.env('products_url')}`)
 
@@ -88,10 +92,6 @@ Cypress.Commands.add('adicionarMultiplosProdutosAoCarrinho', (produtos = [1, 2, 
     cy.contains('button', 'Continue Shopping').click()
     })
     
-})
-
-Cypress.Commands.add('validarQuantidadeProdutosCheckout', (quantidade) => {
-    cy.get('[id^="product-"]').should('have.length', quantidade)
 })
 
 Cypress.Commands.add('adicionarProdutoAoCarrinho', () => {
@@ -119,17 +119,6 @@ Cypress.Commands.add('limparCarrinho', () => {
 
 Cypress.Commands.add('verificarCarrinhoVazio', () => {
     cy.contains('Cart is empty! Click here to buy products.').should('be.visible')
-})
-
-Cypress.Commands.add('buscarProduto', (produto = 'Blue Top') => {
-    cy.visit(`${Cypress.env('products_url')}`)
-    cy.get(`${ProductsPage.searchProductsField}, ${ProductsPage.searchButton}`)
-      .should('be.visible')
-    cy.get(ProductsPage.searchProductsField)
-      .clear()
-      .type(produto)
-      .should('have.value', produto)
-    cy.get(ProductsPage.searchButton).click()
 })
 
 Cypress.Commands.add('visualizarCarrinho', () => {
